@@ -1,0 +1,42 @@
+
+import random
+
+words = ["python", "hangman", "apple", "banana", "code"]
+
+word = random.choice(words)
+word_letters = list(word)   
+guessed_letters = []        
+wrong_guesses = 0
+max_guesses = 6
+
+print("🎮 Welcome to Hangman!")
+print("_ " * len(word))   
+
+while wrong_guesses < max_guesses:
+    guess = input("\nGuess a letter: ").lower()
+
+    if guess in guessed_letters:
+        print("⚠ You already guessed that letter!")
+        continue
+
+    if guess in word_letters:
+        print("✅ Correct guess!")
+        guessed_letters.append(guess)
+    else:
+        print("❌ Wrong guess!")
+        wrong_guesses += 1
+
+    display_word = ""
+    for letter in word_letters:
+        if letter in guessed_letters:
+            display_word += letter + " "
+        else:
+            display_word += "_ "
+    print("Word:", display_word.strip())
+    print(f"Lives left: {max_guesses - wrong_guesses}")
+
+    if all(letter in guessed_letters for letter in word_letters):
+        print("\n🎉 Congratulations! You guessed the word:", word)
+        break
+else:
+    print("\n💀 Game Over! The word was:", word)
